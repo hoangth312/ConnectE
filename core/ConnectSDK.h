@@ -72,8 +72,8 @@
 #import "CastService.h"
 #import "DLNAService.h"
 #import "ZeroConfDiscoveryProvider.h"
-#import "FireTVService.h"
-#import "FireTVDiscoveryProvider.h"
+//#import "FireTVService.h"
+//#import "FireTVDiscoveryProvider.h"
 
 
 
