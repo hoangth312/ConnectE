@@ -10,7 +10,7 @@
 
 Pod::Spec.new do |s|
   s.name         = "ConnectSDK"
-  s.version      = "2.1.4"
+  s.version      = "1.0.0"
   s.summary      = "Connect SDK is an open source framework that connects your mobile apps with multiple TV platforms."
 
   s.description  = <<-DESC
@@ -28,10 +28,9 @@ Pod::Spec.new do |s|
   s.homepage     = "http://www.connectsdk.com/"
   s.license      = { :type => "Apache License, Version 2.0", :file => "LICENSE" }
   s.author             = { "Connect SDK" => "support@connectsdk.com" }
-  s.social_media_url   = "http://twitter.com/ConnectSDK"
   s.platform     = :ios, "11.0"
   s.ios.deployment_target = "11.0"
-  s.source       = { :git => "https://github.com/ConnectSDK/Connect-SDK-iOS.git",
+  s.source       = { :git => "https://github.com/hoangth312/ConnectE.git",
                      :tag => s.version,
                      :submodules => true }
 
