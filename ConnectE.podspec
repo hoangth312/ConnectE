@@ -9,8 +9,8 @@
 # cannot include its support in a subspec in an automated way.
 
 Pod::Spec.new do |s|
-  s.name         = "ConnectE"
-  s.version      = "1.0.0"
+  s.name         = "ConnectSDK"
+  s.version      = "2.1.4"
   s.summary      = "Connect SDK is an open source framework that connects your mobile apps with multiple TV platforms."
 
   s.description  = <<-DESC
@@ -25,12 +25,13 @@ Pod::Spec.new do |s|
                     To support the aforementioned use case without Connect SDK, a developer would need to implement DIAL, ECG, Chromecast, and DLNA in their app. With Connect SDK, discovering the three devices is handled for you. Furthermore, the method calls between each protocol is abstracted. That means you can use one method call to beam a video to Roku, 3 generations of LG Smart TVs, Apple TV, and Chromecast.
                    DESC
 
-  s.homepage     = "http://www.connectE.com/"
+  s.homepage     = "http://www.connectsdk.com/"
   s.license      = { :type => "Apache License, Version 2.0", :file => "LICENSE" }
-  s.author             = { "ConnectE" => "google.com" }
+  s.author             = { "Connect SDK" => "support@connectsdk.com" }
+  s.social_media_url   = "http://twitter.com/ConnectSDK"
   s.platform     = :ios, "11.0"
   s.ios.deployment_target = "11.0"
-  s.source       = { :git => "https://github.com/hoangth312/ConnectE.git",
+  s.source       = { :git => "https://github.com/ConnectSDK/Connect-SDK-iOS.git",
                      :tag => s.version,
                      :submodules => true }
 
@@ -92,7 +93,7 @@ Pod::Spec.new do |s|
     sp.private_header_files = "core/**/*_Private.h"
     sp.requires_arc = true
 
-    sp.dependency 'ConnectE/no-arc'
+    sp.dependency 'ConnectSDK/no-arc'
     sp.ios.vendored_frameworks = 'core/Frameworks/LGCast/LGCast.xcframework', 'core/Frameworks/LGCast/GStreamerForLGCast.xcframework'
     sp.preserve_paths =  'core/Frameworks/LGCast/LGCast.xcframework', 'core/Frameworks/LGCast/GStreamerForLGCast.xcframework'
   end
@@ -107,7 +108,7 @@ Pod::Spec.new do |s|
   s.subspec 'GoogleCast' do |sp|
     cast_dir = "modules/google-cast"
 
-    sp.dependency 'ConnectE/Core'
+    sp.dependency 'ConnectSDK/Core'
     sp.source_files = "#{cast_dir}/**/*.{h,m}"
     sp.exclude_files = "#{cast_dir}/*Tests/**/*"
     sp.private_header_files = "#{cast_dir}/**/*_Private.h"
