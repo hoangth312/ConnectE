@@ -78,7 +78,7 @@ NSString *const kCMValueRequestPowerOff = @"Request Power Off";
 }
 
 - (void)openConnection:(ServiceType)type device:(ConnectableDevice *)device {
-    [Log infoLGCast: @"openConnection"];
+    [Log2 infoLGCast: @"openConnection"];
 
     if (device == nil) return;
     
@@ -94,7 +94,7 @@ NSString *const kCMValueRequestPowerOff = @"Request Power Off";
 }
 
 - (void)sendGetParameter {
-    [Log infoLGCast:@"sendGetParameter"];
+    [Log2 infoLGCast:@"sendGetParameter"];
     
     SuccessBlock successBlock = ^(NSDictionary *json) {
         if (json == nil) { return; }
@@ -104,7 +104,7 @@ NSString *const kCMValueRequestPowerOff = @"Request Power Off";
     
     FailureBlock failureBlock = ^(NSError *error) {
         if (error != nil) {
-            [Log errorLGCast:error.localizedDescription];
+            [Log2 errorLGCast:error.localizedDescription];
             [self callOnConnectionFailed:@"sendGetParameter failure"];
         }
     };
@@ -118,11 +118,11 @@ NSString *const kCMValueRequestPowerOff = @"Request Power Off";
 
 
 - (void)sendSetParameter:(NSDictionary *)values ignoreResult:(BOOL)ignoreResult {
-    [Log infoLGCast:@"sendSetParameter"];
+    [Log2 infoLGCast:@"sendSetParameter"];
     
     FailureBlock failureBlock = ^(NSError *error) {
         if (error != nil) {
-            [Log errorLGCast:error.localizedDescription];
+            [Log2 errorLGCast:error.localizedDescription];
             
             if (!ignoreResult) {
                 [self callOnConnectionFailed:@"sendSetParameter failure"];
@@ -134,10 +134,10 @@ NSString *const kCMValueRequestPowerOff = @"Request Power Off";
 }
 
 - (void)sendGetParameterResponse:(NSDictionary *)values {
-    [Log infoLGCast:@"sendGetParameterResponse"];
+    [Log2 infoLGCast:@"sendGetParameterResponse"];
     
     if (_currentState != kConnectionStateConnected) {
-        [Log errorLGCast:[NSString stringWithFormat:@"Remote camera is not connected %d", _currentState]];
+        [Log2 errorLGCast:[NSString stringWithFormat:@"Remote camera is not connected %d", _currentState]];
         return;
     }
     
@@ -145,10 +145,10 @@ NSString *const kCMValueRequestPowerOff = @"Request Power Off";
 }
 
 - (void)sendSetParameterResponse:(NSDictionary *)values {
-    [Log infoLGCast:@"sendSetParameterResponse"];
+    [Log2 infoLGCast:@"sendSetParameterResponse"];
     
     if (_currentState != kConnectionStateConnected) {
-        [Log errorLGCast:[NSString stringWithFormat:@"Remote camera is not connected %d", _currentState]];
+        [Log2 errorLGCast:[NSString stringWithFormat:@"Remote camera is not connected %d", _currentState]];
         return;
     }
     
@@ -156,7 +156,7 @@ NSString *const kCMValueRequestPowerOff = @"Request Power Off";
 }
 
 - (void)closeConnection {
-    [Log infoLGCast:@"closeConnection"];
+    [Log2 infoLGCast:@"closeConnection"];
     
     if (_currentState == kConnectionStateDisconnecting) {
         return;
@@ -188,10 +188,10 @@ NSString *const kCMValueRequestPowerOff = @"Request Power Off";
 }
 
 - (void)setSourceDeviceInfo:(NSDictionary *)sourceInfo deviceInfo:(NSDictionary *)deviceInfo {
-    [Log infoLGCast:@"setSourceDeviceInfo"];
+    [Log2 infoLGCast:@"setSourceDeviceInfo"];
     
     if (sourceInfo == nil || deviceInfo == nil) {
-        [Log errorLGCast:@"setSourceDeviceInfo failure"];
+        [Log2 errorLGCast:@"setSourceDeviceInfo failure"];
         [self callOnConnectionFailed:@"setSourceDeviceInfo failure"];
         return;
     }
@@ -202,7 +202,7 @@ NSString *const kCMValueRequestPowerOff = @"Request Power Off";
     
     FailureBlock failureBlock = ^(NSError *error) {
         if (error != nil) {
-            [Log errorLGCast:error.localizedDescription];
+            [Log2 errorLGCast:error.localizedDescription];
             [self callOnConnectionFailed:@"sendSetParameter failure"];
         }
     };
@@ -222,10 +222,10 @@ NSString *const kCMValueRequestPowerOff = @"Request Power Off";
 }
 
 - (void)subscribe {
-    [Log infoLGCast:@"subscribe"];
+    [Log2 infoLGCast:@"subscribe"];
     
     if (!(_currentState == kConnectionStateConnected || _currentState == kConnectionStateConnecting)) {
-        [Log errorLGCast:[NSString stringWithFormat:@"Remote camera is not connected %d", _currentState]];
+        [Log2 errorLGCast:[NSString stringWithFormat:@"Remote camera is not connected %d", _currentState]];
         return;
     }
     
@@ -253,7 +253,7 @@ NSString *const kCMValueRequestPowerOff = @"Request Power Off";
     
     FailureBlock failureBlock = ^(NSError *error) {
         if (error != nil) {
-            [Log errorLGCast:error.localizedDescription];
+            [Log2 errorLGCast:error.localizedDescription];
             [self callOnError:kConnectionErrorConnectionClosed message:@"subscribe error"];
         }
     };
@@ -275,7 +275,7 @@ NSString *const kCMValueRequestPowerOff = @"Request Power Off";
 }
 
 - (void)handleSubscribed:(NSDictionary *)response {
-    [Log infoLGCast:@"handleSubscribed"];
+    [Log2 infoLGCast:@"handleSubscribed"];
     
     if (response[kCMKeySubscribed]) {
         [self sendConnect];
@@ -285,13 +285,13 @@ NSString *const kCMValueRequestPowerOff = @"Request Power Off";
 }
 
 - (void)handleCommand:(NSDictionary *)response {
-    [Log infoLGCast:@"handleCommand"];
+    [Log2 infoLGCast:@"handleCommand"];
     
     NSString *clientKey = response[kCMKeyClientKey];
     NSString *currentClientKey = _service.webOSTVServiceConfig.clientKey;
     
     if (clientKey != nil && [clientKey caseInsensitiveCompare:currentClientKey] != NSOrderedSame) {
-        [Log errorLGCast:@"Client Key not matched!"];
+        [Log2 errorLGCast:@"Client Key not matched!"];
         return;
     }
     
@@ -321,7 +321,7 @@ NSString *const kCMValueRequestPowerOff = @"Request Power Off";
 }
 
 - (void)sendConnect {
-    [Log infoLGCast:@"sendConnect"];
+    [Log2 infoLGCast:@"sendConnect"];
     
     SuccessBlock successBlock = ^(id responseObject) {
         [self sendGetParameter];
@@ -329,7 +329,7 @@ NSString *const kCMValueRequestPowerOff = @"Request Power Off";
     
     FailureBlock failureBlock = ^(NSError *error) {
         if (error != nil) {
-            [Log errorLGCast:error.localizedDescription];
+            [Log2 errorLGCast:error.localizedDescription];
             [self callOnConnectionFailed:@"sendConnect failure"];
         }
     };
@@ -342,7 +342,7 @@ NSString *const kCMValueRequestPowerOff = @"Request Power Off";
 }
 
 - (void)callOnPairingRejected {
-    [Log infoLGCast:@"callOnPairingRejected"];
+    [Log2 infoLGCast:@"callOnPairingRejected"];
     _currentState = kConnectionStateNone;
     
     if (_delegate && [_delegate respondsToSelector:@selector(onPairingRejected)]) {
@@ -351,7 +351,7 @@ NSString *const kCMValueRequestPowerOff = @"Request Power Off";
 }
 
 - (void)callOnConnectionFailed:(NSString *)message {
-    [Log infoLGCast:@"callOnConnectionFailed"];
+    [Log2 infoLGCast:@"callOnConnectionFailed"];
     
     [self closeConnection];
     _currentState = kConnectionStateNone;
@@ -394,7 +394,7 @@ NSString *const kCMValueRequestPowerOff = @"Request Power Off";
 }
 
 - (void)callOnError:(ConnectionError)error message:(NSString *)message {
-    [Log infoLGCast:@"callOnError"];
+    [Log2 infoLGCast:@"callOnError"];
     
     [self closeConnection];
     _currentState = kConnectionStateNone;
@@ -406,7 +406,7 @@ NSString *const kCMValueRequestPowerOff = @"Request Power Off";
 
 // MARK: ConnectableDeviceDelegate
 - (void)connectableDeviceDisconnected:(ConnectableDevice *)device withError:(NSError *)error {
-    [Log infoLGCast:[NSString stringWithFormat:@"connectableDevice disconnectedWithError: %@", error.localizedDescription]];
+    [Log2 infoLGCast:[NSString stringWithFormat:@"connectableDevice disconnectedWithError: %@", error.localizedDescription]];
     
     switch (_currentState) {
         case kConnectionStateConnecting:
@@ -416,19 +416,19 @@ NSString *const kCMValueRequestPowerOff = @"Request Power Off";
             [self callOnError:kConnectionErrorDeviceShutdown message:@"device disconnected"];
             break;
         default:
-            [Log infoLGCast:[NSString stringWithFormat:@"Ignore event state: %d", _currentState]];
+            [Log2 infoLGCast:[NSString stringWithFormat:@"Ignore event state: %d", _currentState]];
             break;
     }
 }
 
 - (void)connectableDeviceReady:(ConnectableDevice *)device {
-    [Log infoLGCast:@"connectableDeviceReady"];
+    [Log2 infoLGCast:@"connectableDeviceReady"];
     
     [self subscribe];
 }
 
 - (void)connectableDevice:(ConnectableDevice *)device service:(DeviceService *)service pairingRequiredOfType:(int)pairingType withData:(id)pairingData {
-    [Log infoLGCast:@"connectableDevice pairingRequiredOfType"];
+    [Log2 infoLGCast:@"connectableDevice pairingRequiredOfType"];
     
     [self callOnPairingRequested];
 }

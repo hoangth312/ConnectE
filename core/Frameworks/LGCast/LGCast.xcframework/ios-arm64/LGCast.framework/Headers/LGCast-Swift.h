@@ -616,7 +616,7 @@ SWIFT_CLASS("_TtC6LGCast17LGCastSecurityKey")
 
 
 SWIFT_CLASS("_TtC6LGCast3Log")
-@interface Log : NSObject
+@interface Log2 : NSObject
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -630,7 +630,7 @@ typedef SWIFT_ENUM(NSInteger, LogLevel, closed) {
 };
 
 
-@interface Log (SWIFT_EXTENSION(LGCast))
+@interface Log2 (SWIFT_EXTENSION(LGCast))
 + (void)debugLGCast:(NSString * _Nonnull)message;
 + (void)infoLGCast:(NSString * _Nonnull)message;
 + (void)noticeLGCast:(NSString * _Nonnull)message;

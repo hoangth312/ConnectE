@@ -74,7 +74,7 @@ NSString *const kSMValueOrientationLandscape = @"landscape";
 }
 
 - (void)startMirroring:(ConnectableDevice *)device settings:(nullable NSDictionary<NSString *,id> *)settings {
-    [Log infoLGCast:@"startMirroring"];
+    [Log2 infoLGCast:@"startMirroring"];
     
     if (self.isRunning == NO) {
         self.isRunning = YES;
@@ -85,7 +85,7 @@ NSString *const kSMValueOrientationLandscape = @"landscape";
 }
 
 - (void)stopMirroring {
-    [Log infoLGCast:@"stopMirroring"];
+    [Log2 infoLGCast:@"stopMirroring"];
     
     if (self.isRunning == YES) {
         self.isRunning = NO;
@@ -112,28 +112,28 @@ NSString *const kSMValueOrientationLandscape = @"landscape";
 // MARK: ConnectionManagerDelegate
 
 - (void)onPairingRequested {
-    [Log infoLGCast:@"onPairingRequested"];
+    [Log2 infoLGCast:@"onPairingRequested"];
 }
 
 - (void)onPairingRejected {
-    [Log infoLGCast:@"onPairingRejected"];
+    [Log2 infoLGCast:@"onPairingRejected"];
     
     self.isRunning = NO;
     [self sendStartEvent:NO];
 }
 
 - (void)onConnectionFailed:(NSString *)message {
-    [Log errorLGCast:[NSString stringWithFormat:@"onConnectionFailed %@", message]];
+    [Log2 errorLGCast:[NSString stringWithFormat:@"onConnectionFailed %@", message]];
     
     self.isRunning = NO;
     [self sendStartEvent:NO];
 }
 
 - (void)onConnectionCompleted:(NSDictionary *)values {
-    [Log infoLGCast:@"onConnectionCompleted"];
+    [Log2 infoLGCast:@"onConnectionCompleted"];
     
     if (values == nil) {
-        [Log errorLGCast:@"invalid parameter"];
+        [Log2 errorLGCast:@"invalid parameter"];
         return;
     }
     
@@ -187,7 +187,7 @@ NSString *const kSMValueOrientationLandscape = @"landscape";
 }
 
 - (void)onReceivePlayCommand:(NSDictionary *)values {
-    [Log infoLGCast:@"onReceivePlayCommand"];
+    [Log2 infoLGCast:@"onReceivePlayCommand"];
     
     LGCastDeviceSettings *deviceSettings = [[LGCastDeviceSettings alloc] init];
     deviceSettings.host = _sinkCapability.ipAddress;
@@ -198,15 +198,15 @@ NSString *const kSMValueOrientationLandscape = @"landscape";
 }
 
 - (void)onReceiveStopCommand:(NSDictionary *)values {
-    [Log infoLGCast:@"onReceiveStopCommand"];
+    [Log2 infoLGCast:@"onReceiveStopCommand"];
 }
 
 - (void)onReceiveGetParameter:(NSDictionary *)values {
-    [Log infoLGCast:@"onReceiveGetParameter"];
+    [Log2 infoLGCast:@"onReceiveGetParameter"];
 }
 
 - (void)onReceiveSetParameter:(NSDictionary *)values {
-    [Log infoLGCast:@"onReceiveSetParameter"];
+    [Log2 infoLGCast:@"onReceiveSetParameter"];
         
     NSDictionary* mirroringValues = values[kSMKeyMirroring];
     if (mirroringValues == nil) {
@@ -214,7 +214,7 @@ NSString *const kSMValueOrientationLandscape = @"landscape";
     }
     
     if (_sinkCapability == nil) {
-        [Log errorLGCast:@"Unable to handle this event"];
+        [Log2 errorLGCast:@"Unable to handle this event"];
         return;
     }
     
@@ -236,24 +236,24 @@ NSString *const kSMValueOrientationLandscape = @"landscape";
 }
 
 - (void)onError:(ConnectionError)error message:(NSString *)message {
-    [Log errorLGCast:[NSString stringWithFormat:@"onError %d %@", error, message]];
+    [Log2 errorLGCast:[NSString stringWithFormat:@"onError %d %@", error, message]];
 
     ScreenMirroringError controlError = ScreenMirroringErrorGeneric;
     switch (error) {
         case kConnectionErrorUnknown:
-            [Log errorLGCast:@"kConnectionErrorUnknown"];
+            [Log2 errorLGCast:@"kConnectionErrorUnknown"];
             controlError = ScreenMirroringErrorGeneric;
             break;
         case kConnectionErrorConnectionClosed:
-            [Log errorLGCast:@"kConnectionErrorConnectionClosed"];
+            [Log2 errorLGCast:@"kConnectionErrorConnectionClosed"];
             controlError = ScreenMirroringErrorConnectionClosed;
             break;
         case kConnectionErrorDeviceShutdown:
-            [Log errorLGCast:@"kConnectionErrorDeviceShutdown"];
+            [Log2 errorLGCast:@"kConnectionErrorDeviceShutdown"];
             controlError = ScreenMirroringErrorDeviceShutdown;
             break;
         case kConnectionErrorRendererTerminated:
-            [Log errorLGCast:@"kConnectionErrorRendererTerminated"];
+            [Log2 errorLGCast:@"kConnectionErrorRendererTerminated"];
             controlError = ScreenMirroringErrorRendererTerminated;
             break;
         default:
@@ -269,18 +269,18 @@ NSString *const kSMValueOrientationLandscape = @"landscape";
 // MARK: LGCastMirroringApiDelegate
 
 - (void)lgcastMirroringDidStartWithResult:(BOOL)result {
-    [Log infoLGCast:@"lgcastMirroringDidStartWithResult"];
+    [Log2 infoLGCast:@"lgcastMirroringDidStartWithResult"];
     if (result) {
         [self sendStartEvent:YES];
     }
 }
 
 - (void)lgcastMirroringDidStopWithResult:(BOOL)result {
-    [Log infoLGCast:@"lgcastMirroringDidStopWithResult"];
+    [Log2 infoLGCast:@"lgcastMirroringDidStopWithResult"];
 }
 
 - (void)lgcastMirroringErrorDidOccurWithError:(enum LGCastMirroringError)error {
-    [Log errorLGCast:[NSString stringWithFormat:@"lgcastMirroringErrorDidOccurWithError %d", (int)error]];
+    [Log2 errorLGCast:[NSString stringWithFormat:@"lgcastMirroringErrorDidOccurWithError %d", (int)error]];
     
     ScreenMirroringError errorType = ScreenMirroringErrorGeneric;
     switch (error) {
@@ -306,7 +306,7 @@ NSString *const kSMValueOrientationLandscape = @"landscape";
 }
 
 - (void)lgcastMirroringUpdateEventWithEvent:(enum LGCastMirroringEvent)event info:(LGCastMirroringInfo *)info {
-    [Log infoLGCast:@"lgcastMirroringUpdateEventWithEvent"];
+    [Log2 infoLGCast:@"lgcastMirroringUpdateEventWithEvent"];
     
     if (event == LGCastMirroringEventUpdateVideoVideoSize) {
         if (_sourceCapability != nil && info != nil && info.videoInfo) {

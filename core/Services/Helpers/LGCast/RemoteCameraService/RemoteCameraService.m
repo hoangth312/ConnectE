@@ -84,7 +84,7 @@ NSString *const kRCKeyRotation = @"rotation";
 }
 
 - (UIView *)startRemoteCamera:(ConnectableDevice *)device settings:(nullable NSDictionary<NSString *, id> *)settings {
-    [Log infoLGCast:@"startRemoteCamera"];
+    [Log2 infoLGCast:@"startRemoteCamera"];
     
     UIView *previewView;
     if (self.isRunning == NO) {
@@ -102,7 +102,7 @@ NSString *const kRCKeyRotation = @"rotation";
 }
 
 - (void)stopRemoteCamera {
-    [Log infoLGCast:@"stopRemoteCamera"];
+    [Log2 infoLGCast:@"stopRemoteCamera"];
     
     if (self.isRunning == YES) {
         self.isRunning = NO;
@@ -116,7 +116,7 @@ NSString *const kRCKeyRotation = @"rotation";
 }
 
 - (void)setLensFacing:(int)lensFacing {
-    [Log infoLGCast:@"setLensFacing"];
+    [Log2 infoLGCast:@"setLensFacing"];
     
     BOOL result = [[LGCastCameraApi shared] changeCameraPosition:lensFacing];
     if (_isPlaying && result) {
@@ -126,7 +126,7 @@ NSString *const kRCKeyRotation = @"rotation";
 }
 
 - (void)setMicMute:(BOOL)micMute {
-    [Log infoLGCast:@"setMicMute"];
+    [Log2 infoLGCast:@"setMicMute"];
     
     BOOL result = [[LGCastCameraApi shared] muteMicrophone:micMute];
     if (_isPlaying && result) {
@@ -157,20 +157,20 @@ NSString *const kRCKeyRotation = @"rotation";
 // MARK: ConnectionManagerDelegate
 
 - (void)onPairingRequested {
-    [Log infoLGCast:@"onPairingRequested"];
+    [Log2 infoLGCast:@"onPairingRequested"];
     
     [self sendPairEvent];
 }
 
 - (void)onPairingRejected {
-    [Log infoLGCast:@"onPairingRejected"];
+    [Log2 infoLGCast:@"onPairingRejected"];
     
     self.isRunning = NO;
     [self sendStartEvent:NO];
 }
 
 - (void)onConnectionFailed:(NSString *)message {
-    [Log infoLGCast:@"onConnectionFailed"];
+    [Log2 infoLGCast:@"onConnectionFailed"];
     
     self.isRunning = NO;
     self.isPlaying = NO;
@@ -178,7 +178,7 @@ NSString *const kRCKeyRotation = @"rotation";
 }
 
 - (void)onConnectionCompleted:(NSDictionary *)values {
-    [Log infoLGCast:@"onConnectionCompleted"];
+    [Log2 infoLGCast:@"onConnectionCompleted"];
     
     _sinkCapability = [[CameraSinkCapability alloc] initWithJSON:values];
     
@@ -195,12 +195,12 @@ NSString *const kRCKeyRotation = @"rotation";
 }
 
 - (void)onReceivePlayCommand:(NSDictionary *)values {
-    [Log infoLGCast:@"onReceivePlayCommand"];
+    [Log2 infoLGCast:@"onReceivePlayCommand"];
     
     NSDictionary *cameraObj = values[kRCKeyCamera];
     
     if (cameraObj == nil) {
-        [Log errorLGCast:@"invalid parameter"];
+        [Log2 errorLGCast:@"invalid parameter"];
         return;
     }
     
@@ -225,26 +225,26 @@ NSString *const kRCKeyRotation = @"rotation";
 }
 
 - (void)onReceiveStopCommand:(NSDictionary *)values {
-    [Log infoLGCast:@"onReceiveStopCommand"];
+    [Log2 infoLGCast:@"onReceiveStopCommand"];
     
     [[LGCastCameraApi shared] pauseRemoteCamera];
     self.isPlaying = NO;
 }
 
 - (void)onReceiveGetParameter:(NSDictionary *)values {
-    [Log infoLGCast:@"onReceiveGetParameter"];
+    [Log2 infoLGCast:@"onReceiveGetParameter"];
     
     [self updateCameraParameter];
     [_connectionManager sendGetParameterResponse:[_cameraParameter toNSDictionary]];
 }
 
 - (void)onReceiveSetParameter:(NSDictionary *)values {
-    [Log infoLGCast:@"onReceiveSetParameter"];
+    [Log2 infoLGCast:@"onReceiveSetParameter"];
     
     NSDictionary *cameraObj = values[kRCKeyCamera];
     
     if (cameraObj == nil) {
-        [Log errorLGCast:@"invalid parameter"];
+        [Log2 errorLGCast:@"invalid parameter"];
         return;
     }
     
@@ -295,26 +295,26 @@ NSString *const kRCKeyRotation = @"rotation";
 }
 
 - (void)onError:(ConnectionError)error message:(NSString *)message {
-    [Log errorLGCast:[NSString stringWithFormat:@"onError %d %@", error, message]];
+    [Log2 errorLGCast:[NSString stringWithFormat:@"onError %d %@", error, message]];
     
     RemoteCameraError controlError = RemoteCameraErrorGeneric;
     switch (error) {
         case kConnectionErrorUnknown:
-            [Log errorLGCast:@"kConnectionErrorUnknown"];
+            [Log2 errorLGCast:@"kConnectionErrorUnknown"];
             controlError = RemoteCameraErrorGeneric;
             break;
         case kConnectionErrorConnectionClosed:
-            [Log errorLGCast:@"kConnectionErrorConnectionClosed"];
+            [Log2 errorLGCast:@"kConnectionErrorConnectionClosed"];
 
             controlError = RemoteCameraErrorConnectionClosed;
             break;
         case kConnectionErrorDeviceShutdown:
-            [Log errorLGCast:@"kConnectionErrorDeviceShutdown"];
+            [Log2 errorLGCast:@"kConnectionErrorDeviceShutdown"];
 
             controlError = RemoteCameraErrorDeviceShutdown;
             break;
         case kConnectionErrorRendererTerminated:
-            [Log errorLGCast:@"kConnectionErrorRendererTerminated"];
+            [Log2 errorLGCast:@"kConnectionErrorRendererTerminated"];
             controlError = RemoteCameraErrorRendererTerminated;
             break;
         default:
@@ -332,7 +332,7 @@ NSString *const kRCKeyRotation = @"rotation";
 // MARK: LGCastCameraApiDelegate
 
 - (void)lgcastCameraDidChangeWithProperty:(LGCastCameraProperty)property {
-    [Log infoLGCast:@"lgcastCameraDidChangeWithProperty"];
+    [Log2 infoLGCast:@"lgcastCameraDidChangeWithProperty"];
     
     if (!self.isPlaying) {
         return;
@@ -362,13 +362,13 @@ NSString *const kRCKeyRotation = @"rotation";
 }
 
 - (void)lgcastCameraDidPlay {
-    [Log infoLGCast:@"lgcastCameraDidPlay"];
+    [Log2 infoLGCast:@"lgcastCameraDidPlay"];
     
     [self sendPlayEvent];
 }
 
 - (void)lgcastCameraErrorDidOccurWithError:(LGCastCameraError)error {
-    [Log errorLGCast:[NSString stringWithFormat:@"lgcastCameraErrorDidOccurWithError %ld", (long)error]];
+    [Log2 errorLGCast:[NSString stringWithFormat:@"lgcastCameraErrorDidOccurWithError %ld", (long)error]];
     
     self.isRunning = NO;
     [self sendErrorEvent:error];
