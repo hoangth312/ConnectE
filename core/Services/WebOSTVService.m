@@ -293,8 +293,7 @@
 
 - (void) connect
 {
-    
-    NSLog(@"binbon: %@", @"WebOSTV 297 ");
+
     if (!self.socket)
     {
         _socket = [[WebOSTVServiceSocketClient alloc] initWithService:self];
@@ -341,14 +340,11 @@
 
 - (void) socketWillRegister:(WebOSTVServiceSocketClient *)socket
 {
-    NSLog(@"binbon: %@", @"socketWillRegister 344 ");
-    _pairingTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(showAlert) userInfo:nil repeats:NO];
 }
 
 - (void) socket:(WebOSTVServiceSocketClient *)socket registrationFailed:(NSError *)error
 {
 
-    NSLog(@"binbon: %@", @"registrationFailed 351 ");
     // khong cap quyen
     if (self.delegate && [self.delegate respondsToSelector:@selector(deviceService:pairingFailedWithError:)])
         dispatch_on_main(^{ [self.delegate deviceService:self pairingFailedWithError:error]; });
@@ -360,7 +356,6 @@
 {
     [_pairingTimer invalidate];
 
-    NSLog(@"binbon: %@", @"socketDidConnect 362 ");
     // thanh cong
 
     if ([self.delegate respondsToSelector:@selector(deviceServicePairingSuccess:)])
@@ -372,7 +367,6 @@
 
 - (void) socket:(WebOSTVServiceSocketClient *)socket didFailWithError:(NSError *)error
 {
-    NSLog(@"binbon: %@", @"didFailWithError 372 ");
 
     if ([self.delegate respondsToSelector:@selector(deviceService:didFailConnectWithError:)])
         dispatch_on_main(^{ [self.delegate deviceService:self didFailConnectWithError:error]; });
@@ -380,8 +374,6 @@
 
 - (void) socket:(WebOSTVServiceSocketClient *)socket didCloseWithError:(NSError *)error
 {
-    
-    NSLog(@"binbon: %@", @"didFailWithError 382 ");
     if ([self.delegate respondsToSelector:@selector(deviceService:disconnectedWithError:)])
         dispatch_on_main(^{ [self.delegate deviceService:self disconnectedWithError:error]; });
 }
@@ -389,8 +381,6 @@
 // closeByResponse 추가: remoteCameraErrorDidOccur 참고함
 - (void) closeByResponse:(NSError *)error
 {
-    
-    NSLog(@"binbon: %@", @"closeByResponse 391 ");
     if(_remoteCameraDelegate != nil && [_remoteCameraDelegate respondsToSelector:@selector(remoteCameraAccessDenied)]){
         [_remoteCameraDelegate remoteCameraAccessDenied];
     }

@@ -209,7 +209,6 @@
 
 -(void) helloTv
 {
-    NSLog(@"binbon: %@", @"helloTv 212 ");
     
     NSDictionary *infoDic = [[NSBundle mainBundle] infoDictionary];
 
@@ -286,7 +285,6 @@
 
 -(void) registerWithTv
 {
-    NSLog(@"binbon: %@", @"registerWithTv 289 ");
     
     ServiceCommand *reg = [[ServiceCommand alloc] init];
     reg.delegate = self;
@@ -296,10 +294,8 @@
         
 
         if (pairingString) {
-            NSLog(@"binbon: pairingString 299 value is %@", pairingString);
             // hien dialog
         } else {
-            NSLog(@"binbon: pairingString 301 is nil");
         }
         if (pairingString) {
             self.service.pairingType = [self pairingStringToType:pairingString];
@@ -329,7 +325,6 @@
         {
             [_commandQueue enumerateObjectsUsingBlock:^(NSString *sendString, NSUInteger idx, BOOL *stop)
                     {
-                        DLog(@"[OUT] : %@", sendString);
 
                         [_socket send:sendString];
                     }];
@@ -344,10 +339,6 @@
     };
     // TODO: this is getting cleaned up before a potential pairing cancelled message is received
     reg.callbackError = ^(NSError *error) {
-        NSLog(@"binbon: 346 Error occurred during registerWithTv: %@, Code: %ld, Description: %@", error, (long)error.code, error.localizedDescription);
-//        NSLog(@"binbon: %@", @"registerWithTv 289 ");
-        
-        
         if (self.delegate && [self.delegate respondsToSelector:@selector(socketWillRegister:)])
             [self.delegate socket:self registrationFailed:error];
     };

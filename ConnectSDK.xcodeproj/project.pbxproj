@@ -1307,13 +1307,6 @@
 			path = Providers;
 			sourceTree = "<group>";
 		};
-		C7ECFCAF2D09781C00C1479E /* New Group */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "New Group";
-			sourceTree = "<group>";
-		};
 		EA5FB799199AEC2E0057B4B4 /* Connect SDK */ = {
 			isa = PBXGroup;
 			children = (
@@ -1746,7 +1739,6 @@
 		EA61EB0718FE485B00D75696 = {
 			isa = PBXGroup;
 			children = (
-				C7ECFCAF2D09781C00C1479E /* New Group */,
 				EA5FB799199AEC2E0057B4B4 /* Connect SDK */,
 				EA61EB1218FE485B00D75696 /* Frameworks */,
 				EA61EB1118FE485B00D75696 /* Products */,

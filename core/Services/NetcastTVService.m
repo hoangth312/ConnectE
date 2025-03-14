@@ -288,7 +288,6 @@ NSString *lgeUDAPRequestURI[8] = {
 {
     if (self.connected)
         return;
-    NSLog(@"binbon: %@", @"Netcast 291 ");
     if (self.netcastTVServiceConfig.pairingCode)
         [self pairWithData:self.netcastTVServiceConfig.pairingCode];
     else

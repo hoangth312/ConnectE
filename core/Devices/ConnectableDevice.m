@@ -236,51 +236,35 @@
     {
         [_services enumerateKeysAndObjectsUsingBlock:^(id key, DeviceService *service, BOOL *stop)
         {
-
-            
-            NSLog(@"binbon: %@ %@ %d", service.serviceName, @"229", param);
             if (!service.connected){
                 if (param == 0) {
                     if  ([service.serviceName  isEqual: @"Roku"]) {
-                        NSLog(@"binbon: %@ %@ %d", service.serviceName, @"234", param);
                         [service connect];
                         
                     }else {
                         [service disconnect];
                     }
                 }else if  (param == 4){
-                    
-                    NSLog(@"binbon: %@ %@ %d", service.serviceName, @"253", param);
                    if ([service.serviceName  isEqual: @"Chromecast"]) {
-                       NSLog(@"binbon: %@", @"255");
                        [service connect];
                    }else {
-                       NSLog(@"binbon: %@", @"258");
                        [service disconnect];
                    }
                                    
                 }
                 
                 else if  (param == 2){
-                    
-                    NSLog(@"binbon: %@ %@ %d", service.serviceName, @"266", param);
                    if ([service.serviceName  isEqual: @"webOS TV"]) {
-                       NSLog(@"binbon: %@", @"268");
                        [service connect];
                    }else {
-                       NSLog(@"binbon: %@", @"271");
                        [service disconnect];
                    }
                                    
                 }
                       else if  (param == 5){
-                
-                NSLog(@"binbon: %@ %@ %d", service.serviceName, @"266", param);
                if ([service.serviceName  isEqual: @"DLNA"]) {
-                   NSLog(@"binbon: %@", @"268");
                    [service connect];
                }else {
-                   NSLog(@"binbon: %@", @"271");
                    [service disconnect];
                }
                                
@@ -288,8 +272,6 @@
 //
                 
                 else {
-                    NSLog(@"binbon: %@ %@ %d", service.serviceName, @"279", param);
-                    NSLog(@"binbon: %@", @"280");
                     [service connect];
                 }
             }
@@ -505,17 +487,11 @@
 
 - (void)deviceServiceConnectionSuccess:(DeviceService *)service
 {
-    
-    
-    NSLog(@"binbon: %@", @"deviceServiceConnectionSuccess connect  498 ");
-    
     if (self.delegate && [self.delegate respondsToSelector:@selector(connectableDeviceConnectionSuccess:forService:)])
         dispatch_on_main(^{ [self.delegate connectableDeviceConnectionSuccess:self forService:service]; });
 
     if (self.connected)
     {
-        
-        NSLog(@"binbon: %@", @"deviceServiceConnectionSuccess connect  506 ");
         
         [[[DiscoveryManager sharedManager] deviceStore] addDevice:self];
 
@@ -571,8 +547,6 @@
 
 - (void)deviceService:(DeviceService *)service pairingFailedWithError:(NSError *)error
 {
-    
-    NSLog(@"binbon: %@", @"deviceService pairingFailedWithError 556 ");
     if (self.delegate && [self.delegate respondsToSelector:@selector(connectableDevice:service:pairingFailedWithError:)])
         dispatch_on_main(^{ [self.delegate connectableDevice:self service:service pairingFailedWithError:error]; });
 }
